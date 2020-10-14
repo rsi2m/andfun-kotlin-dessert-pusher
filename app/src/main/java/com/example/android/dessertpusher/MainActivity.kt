@@ -28,11 +28,6 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
-/** onSaveInstanceState Bundle Keys **/
-const val KEY_REVENUE = "revenue_key"
-const val KEY_DESSERT_SOLD = "dessert_sold_key"
-const val KEY_TIMER_SECONDS = "timer_seconds_key"
-
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
@@ -71,7 +66,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.i("onCreate Called")
+        Timber.i("onCreate was called")
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -167,6 +162,36 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             R.id.shareMenuButton -> onShare()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Timber.i("onStart was called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume was called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause was called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy was called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("onReStart was called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Timber.i("onStop was called")
     }
 
     /**
