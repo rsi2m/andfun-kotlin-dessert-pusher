@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -73,6 +74,14 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
         }
+
+        if (savedInstanceState != null) {
+            dessertTimer.secondsCount = savedInstanceState.getInt("timer")
+            revenue = savedInstanceState.getInt("revenue")
+            dessertsSold = savedInstanceState.getInt("dessertsSold")
+        }
+
+        dessertTimer = DessertTimer(lifecycle)
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -135,6 +144,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             Toast.makeText(this, getString(R.string.sharing_not_available),
                     Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("revenue", revenue)
+        outState.putInt("dessertsSold", dessertsSold)
+        outState.putInt("timer", dessertTimer.secondsCount)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
