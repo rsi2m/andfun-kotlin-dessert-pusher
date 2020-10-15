@@ -75,19 +75,14 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
-        // Setup dessertTimer, passing in the lifecycle
-        dessertTimer = DessertTimer(this.lifecycle)
-
-        // If there is a savedInstanceState bundle, then you're "restarting" the activity
-        // If there isn't a bundle, then it's a "fresh" start
         if (savedInstanceState != null) {
-            // Get all the game state information from the bundle, set it
-            revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
-            dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
-            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
-            showCurrentDessert()
-
+            dessertTimer.secondsCount = savedInstanceState.getInt("timer")
+            revenue = savedInstanceState.getInt("revenue")
+            dessertsSold = savedInstanceState.getInt("dessertsSold")
         }
+
+        dessertTimer = DessertTimer(lifecycle)
+
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -150,6 +145,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             Toast.makeText(this, getString(R.string.sharing_not_available),
                     Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("revenue", revenue)
+        outState.putInt("dessertsSold", dessertsSold)
+        outState.putInt("timer", dessertTimer.secondsCount)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
